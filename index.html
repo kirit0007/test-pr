@@ -66,28 +66,12 @@ body {
     margin-top:10px;
 }
 
-.countdown {
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin:12px 0;
-    flex-wrap:wrap;
-}
-.count {
-    background:#ffe1ec;
-    padding:8px 12px;
-    border-radius:12px;
-    font-weight:bold;
-    color:#b30045;
-    min-width:60px;
-}
-
 textarea {
     width:100%;
     border-radius:12px;
     padding:10px;
     border:1px solid var(--pink);
-    margin-top:10px;
+    margin-top:12px;
     resize:none;
     font-family:inherit;
 }
@@ -143,7 +127,6 @@ button {
 
 <body>
 
-<!-- Background music -->
 <audio autoplay loop>
   <source src="valentine-music.mp3" type="audio/mpeg">
 </audio>
@@ -151,13 +134,6 @@ button {
 <div class="card" id="questionScreen">
     <div class="name">Reet 💞</div>
     <div id="typeText"></div>
-
-    <div class="countdown">
-        <div class="count"><span id="d">00</span>d</div>
-        <div class="count"><span id="h">00</span>h</div>
-        <div class="count"><span id="m">00</span>m</div>
-        <div class="count"><span id="s">00</span>s</div>
-    </div>
 
     <textarea id="note" placeholder="Leave a sweet note for me 💌"></textarea>
 
@@ -177,7 +153,7 @@ button {
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
-/* 🔐 EmailJS init (YOUR DETAILS ADDED) */
+/* EmailJS init */
 emailjs.init("4jgb22YXxOARwnm45");
 
 /* Typing animation */
@@ -190,23 +166,6 @@ const el = document.getElementById("typeText");
         setTimeout(type, 70);
     }
 })();
-
-/* Countdown */
-function nextValentine(){
-    const now = new Date();
-    let year = now.getFullYear();
-    let val = new Date(year,1,14);
-    if(now > val) val = new Date(year+1,1,14);
-    return val;
-}
-const target = nextValentine();
-setInterval(()=>{
-    const diff = target - new Date();
-    document.getElementById("d").innerText = Math.floor(diff/86400000);
-    document.getElementById("h").innerText = Math.floor(diff/3600000)%24;
-    document.getElementById("m").innerText = Math.floor(diff/60000)%60;
-    document.getElementById("s").innerText = Math.floor(diff/1000)%60;
-},1000);
 
 /* Buttons logic */
 let speed = 200, scale = 1;
@@ -221,16 +180,27 @@ noBtn.addEventListener("mouseover", ()=>{
         `translate(${Math.random()*speed-speed/2}px,${Math.random()*speed-speed/2}px)`;
 });
 
-/* YES click → send email + confetti */
+/* YES click → SEND EMAIL FIRST */
 yesBtn.addEventListener("click", ()=>{
+
+    const noteText = document.getElementById("note").value || "No message 💕";
+
     emailjs.send(
         "service_lfkolnh",
         "template_u6lrdmg",
         {
-            message: document.getElementById("note").value || "No message 💕",
+            message: noteText,
             time: new Date().toLocaleString()
         }
-    );
+    )
+    .then(() => {
+        console.log("✅ Email sent successfully");
+        alert("💌 Message sent successfully!");
+    })
+    .catch((error) => {
+        console.error("❌ Email failed:", error);
+        alert("⚠️ Email failed to send. Check template variables.");
+    });
 
     document.getElementById("questionScreen").style.display = "none";
     document.getElementById("loveScreen").style.display = "block";
@@ -253,7 +223,3 @@ setInterval(()=>{
 
 </body>
 </html>
-
-
-
-
