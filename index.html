@@ -86,6 +86,7 @@
         overflow: hidden;
         border: 4px solid white;
         box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        background: #fff;
     }
     .gallery img {
         width: 100%;
@@ -160,7 +161,7 @@
         font-size: 18px;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.2s ease-out; /* Faster transition for better feel */
         position: relative;
         z-index: 5;
     }
@@ -169,6 +170,8 @@
         background: var(--pink);
         color: white;
         box-shadow: 0 8px 20px rgba(255, 77, 136, 0.4);
+        max-width: 100%; /* Prevent breaking out of container */
+        white-space: nowrap;
     }
     #yesBtn:hover { transform: scale(1.05); }
 
@@ -242,7 +245,6 @@
 <div class="blob blob-2"></div>
 
 <!-- Background music -->
-<!-- Replaced with a more reliable royalty-free romantic track URL for demo purposes -->
 <audio id="bgMusic" loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_24922150a5.mp3?filename=romantic-piano-125642.mp3" type="audio/mpeg">
 </audio>
@@ -257,12 +259,14 @@
 
 <!-- FORM CARD -->
 <form class="card" id="form">
-    <!-- Gallery Images (Replace srcs with actual photos of her/you two) -->
+    <!-- Gallery Images with Pre-filled Images -->
     <div class="gallery" id="gallery">
-        <!-- Cute placeholder GIFs -->
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z5aHZ5aHZ5aHZ5aHZ5aHZ5aHZ5aHZ5aHZ5aHZ5aHZ5/26FLdmIp6wJr91JAI/giphy.gif" class="active" alt="Cute Cat">
-        <img src="https://media.giphy.com/media/LpDmM2wSt6kTm/giphy.gif" alt="Hearts">
-        <img src="https://media.giphy.com/media/T86i6yDyOYz7y/giphy.gif" alt="Love">
+        <!-- Image 1: Cute Couple Art -->
+        <img src="https://i.pinimg.com/originals/43/44/7f/43447f5515286208035252ae2c759535.gif" class="active" alt="Cute Couple">
+        <!-- Image 2: Red Roses -->
+        <img src="https://images.unsplash.com/photo-1518709779341-56cf4535e94b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Roses">
+        <!-- Image 3: Chocolates/Heart -->
+        <img src="https://images.unsplash.com/photo-1548843222-3e37138323c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Teddy Bear">
     </div>
 
     <div class="name">Rashmi 💞</div>
@@ -288,6 +292,7 @@
 <!-- SUCCESS SCREEN -->
 <div class="card love-screen" id="loveScreen">
     <div class="name">Yay! She said YES! 🎉</div>
+    <!-- Success Image: Excited Minion/Cute Character -->
     <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" alt="Celebration">
     <h3>Can't wait for our date! 🌹</h3>
     <p>Chocolates 🍫, Flowers 💐, and Forever ❤️</p>
@@ -370,7 +375,7 @@
         }, 3500);
     }
 
-    /* --- BUTTON LOGIC (Enhanced) --- */
+    /* --- BUTTON LOGIC (Enhanced & Fixed) --- */
     noBtn.addEventListener("mouseover", moveButton);
     noBtn.addEventListener("click", moveButton);
 
@@ -385,12 +390,16 @@
 
         noBtn.style.transform = `translate(${safeX}px, ${safeY}px)`;
         
-        // 2. Make Yes Button Grow
+        // 2. Make Yes Button Grow (WITH LIMIT)
         let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-        let currentPad = parseFloat(window.getComputedStyle(yesBtn).paddingLeft);
         
-        yesBtn.style.fontSize = `${currentSize + 2}px`;
-        yesBtn.style.padding = `${currentPad + 5}px ${currentPad * 2}px`; // Keep aspect ratio
+        // Cap the max size at 30px (approx 1.5x original) to prevent layout breakage
+        if (currentSize < 30) {
+            let currentPad = parseFloat(window.getComputedStyle(yesBtn).paddingLeft);
+            yesBtn.style.fontSize = `${currentSize + 2}px`;
+            yesBtn.style.padding = `${currentPad + 2}px ${currentPad * 1.5}px`; 
+        }
+        
         yesBtn.innerText = "YES PLEASE! 🥺";
     }
 
