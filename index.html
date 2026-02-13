@@ -7,7 +7,6 @@
 
 <style>
 :root { --pink:#ff4d88; }
-
 * { box-sizing: border-box; }
 
 body {
@@ -31,7 +30,6 @@ body {
     pointer-events:none;
 }
 @keyframes floatUp {
-    from { transform:translateY(0); }
     to { transform:translateY(-120vh); opacity:0; }
 }
 
@@ -54,9 +52,7 @@ body {
     animation:floatName 3s ease-in-out infinite;
 }
 @keyframes floatName {
-    0% { transform:translateY(0); }
     50% { transform:translateY(-6px); }
-    100% { transform:translateY(0); }
 }
 
 #typeText {
@@ -127,6 +123,7 @@ button {
 
 <body>
 
+<!-- Background music -->
 <audio autoplay loop>
   <source src="valentine-music.mp3" type="audio/mpeg">
 </audio>
@@ -135,91 +132,11 @@ button {
     <div class="name">Reet 💞</div>
     <div id="typeText"></div>
 
-    <textarea id="note" placeholder="Leave a sweet note for me 💌"></textarea>
+    <!-- IMPORTANT: name="note" is REQUIRED -->
+    <textarea
+      id="note"
+      name="note"
+      placeholder="Leave a sweet note for me 💌"
+    ></textarea>
 
     <div class="buttons">
-        <button id="yesBtn">YES 💕</button>
-        <button id="noBtn">NO</button>
-    </div>
-</div>
-
-<div class="card love-screen" id="loveScreen">
-    <img src="small-red-roses-bunch.webp" alt="Roses">
-    <h2>She said YES 🎉💘</h2>
-    <p>Roses 💐, chocolates 🍫, gifts 🎁 and my heart forever ❤️</p>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<script>
-/* EmailJS init */
-emailjs.init("4jgb22YXxOARwnm45");
-
-/* Typing animation */
-const text = "Will you be my Valentine?";
-let i = 0;
-const el = document.getElementById("typeText");
-(function type(){
-    if(i < text.length){
-        el.innerHTML += text[i++];
-        setTimeout(type, 70);
-    }
-})();
-
-/* Buttons logic */
-let speed = 200, scale = 1;
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-
-noBtn.addEventListener("mouseover", ()=>{
-    speed += 120;
-    scale += 0.08;
-    yesBtn.style.transform = `scale(${scale})`;
-    noBtn.style.transform =
-        `translate(${Math.random()*speed-speed/2}px,${Math.random()*speed-speed/2}px)`;
-});
-
-/* YES click → SEND EMAIL FIRST */
-yesBtn.addEventListener("click", ()=>{
-
-    const noteText = document.getElementById("note").value || "No message 💕";
-
-    emailjs.send(
-        "service_lfkolnh",
-        "template_u6lrdmg",
-        {
-            message: noteText,
-            time: new Date().toLocaleString()
-        }
-    )
-    .then(() => {
-        console.log("✅ Email sent successfully");
-        alert("💌 Message sent successfully!");
-    })
-    .catch((error) => {
-        console.error("❌ Email failed:", error);
-        alert("⚠️ Email failed to send. Check template variables.");
-    });
-
-    document.getElementById("questionScreen").style.display = "none";
-    document.getElementById("loveScreen").style.display = "block";
-
-    confetti({ particleCount:180, spread:120, origin:{y:0.6} });
-});
-
-/* Floating hearts */
-setInterval(()=>{
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.innerText = Math.random()>0.5 ? "💖" : "💕";
-    h.style.left = Math.random()*100 + "vw";
-    h.style.fontSize = 14 + Math.random()*16 + "px";
-    h.style.animationDuration = 4 + Math.random()*4 + "s";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(), 8000);
-},350);
-</script>
-
-</body>
-</html>
