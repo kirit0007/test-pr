@@ -1,142 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reet 💖 Will You Be My Valentine?</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Reet — Will you be my Valentine? 💘</title>
 
 <style>
-:root { --pink:#ff4d88; }
-* { box-sizing: border-box; }
-
-body {
+  :root{ --pink:#ff4d88; }
+  *{ box-sizing: border-box; }
+  body{
     margin:0;
-    font-family:'Poppins',sans-serif;
-    background:linear-gradient(135deg,#ffd1dc,#ffe6f0);
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    background: linear-gradient(135deg, #ffd1dc, #ffe6f0);
     min-height:100vh;
     display:flex;
-    justify-content:center;
     align-items:center;
-    padding:20px;
+    justify-content:center;
+    padding:18px;
     overflow:hidden;
-}
+  }
 
-/* Floating hearts */
-.heart {
-    position:fixed;
-    bottom:-20px;
-    animation:floatUp linear infinite;
-    opacity:0.8;
-    pointer-events:none;
-}
-@keyframes floatUp {
-    to { transform:translateY(-120vh); opacity:0; }
-}
-
-.card {
-    background:white;
+  .card{
     width:100%;
     max-width:420px;
-    padding:22px;
-    border-radius:22px;
+    background: rgba(255,255,255,0.98);
+    border-radius:20px;
+    padding:20px;
     text-align:center;
-    box-shadow:0 20px 40px rgba(255,77,136,0.25);
+    box-shadow:0 20px 40px rgba(255,77,136,0.18);
     position:relative;
-    z-index:2;
-}
+    z-index:5;
+  }
 
-.name {
-    font-size:26px;
+  .animated-name{
     font-weight:800;
     color:var(--pink);
-    animation:floatName 3s ease-in-out infinite;
-}
-@keyframes floatName {
-    50% { transform:translateY(-6px); }
-}
+    font-size:24px;
+    letter-spacing:1px;
+    padding:6px 12px;
+    border-radius:12px;
+    background: linear-gradient(90deg, rgba(255,77,136,0.08), rgba(255,77,136,0.02));
+    box-shadow: 0 6px 20px rgba(255,77,136,0.12);
+    display:inline-block;
+    transform-origin:center;
+    animation: nameFloat 3s ease-in-out infinite, nameGlow 2.4s linear infinite;
+  }
+  @keyframes nameFloat{
+    0%{ transform: translateY(0) scale(1) rotate(-1deg) }
+    50%{ transform: translateY(-6px) scale(1.03) rotate(1deg) }
+    100%{ transform: translateY(0) scale(1) rotate(-1deg) }
+  }
+  @keyframes nameGlow{
+    0%{ filter:drop-shadow(0 0 0 rgba(255,77,136,0)) }
+    50%{ filter:drop-shadow(0 8px 18px rgba(255,77,136,0.12)) }
+    100%{ filter:drop-shadow(0 0 0 rgba(255,77,136,0)) }
+  }
 
-#typeText {
-    font-size:20px;
+  #typeText{
     color:var(--pink);
+    font-size:20px;
+    margin:10px 0 8px;
     min-height:60px;
-    margin-top:10px;
-}
+    line-height:1.2;
+    word-break:break-word;
+  }
 
-textarea {
+  textarea{
     width:100%;
     border-radius:12px;
     padding:10px;
     border:1px solid var(--pink);
-    margin-top:12px;
-    resize:none;
+    margin:10px 0;
     font-family:inherit;
-}
+    resize:none;
+  }
 
-.buttons {
+  .buttons{
     position:relative;
     height:90px;
-    margin-top:15px;
-}
-
-button {
-    padding:14px 26px;
+    margin-top:10px;
+  }
+  button{
+    padding:12px 26px;
     border-radius:30px;
     border:none;
     font-size:16px;
-    cursor:pointer;
-    transition:0.25s;
-}
-
-#yesBtn {
+    transition: transform .22s ease, box-shadow .22s ease;
+    box-shadow:0 10px 20px rgba(0,0,0,0.06);
+  }
+  #yesBtn{
     background:var(--pink);
     color:white;
-    box-shadow:0 8px 20px rgba(255,77,136,0.4);
-}
-
-#noBtn {
+    cursor:pointer;
+    transform:scale(1);
+  }
+  #noBtn{
     background:white;
     color:var(--pink);
     border:2px solid var(--pink);
     position:absolute;
     right:0;
     cursor:not-allowed;
-}
+  }
 
-.love-screen {
-    display:none;
-    animation:fadeIn 1s ease;
-}
-@keyframes fadeIn {
-    from { opacity:0; transform:scale(0.9); }
-    to { opacity:1; transform:scale(1); }
-}
+  .love-screen{ display:none; animation:fadeIn .9s ease; padding-top:6px }
+  .love-screen img{ width:100%; max-width:260px; border-radius:16px; margin:6px auto 12px; display:block; box-shadow:0 14px 30px rgba(0,0,0,0.18) }
+  .love-screen h2{ color:var(--pink); margin:6px 0 }
+  .love-screen p{ color:#555; line-height:1.4; font-size:15px }
 
-.love-screen img {
-    width:100%;
-    max-width:260px;
-    border-radius:18px;
-    margin:12px auto;
-    box-shadow:0 15px 30px rgba(0,0,0,0.2);
-}
+  @keyframes fadeIn{ from{opacity:0; transform:scale(.98)} to{opacity:1; transform:none} }
+
+  .heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:18px;
+    animation: floatUp linear infinite;
+    opacity:0.8;
+    z-index:1;
+    pointer-events:none;
+  }
+  @keyframes floatUp{ from{transform:translateY(0)} to{transform:translateY(-120vh); opacity:0} }
+
+  @media (max-width:420px){
+    .animated-name{ font-size:20px }
+    #typeText{ font-size:18px; min-height:72px }
+    .card{ padding:18px }
+  }
 </style>
 </head>
-
 <body>
 
-<!-- Background music -->
+<!-- optional music file (place valentine-music.mp3 in same folder) -->
 <audio autoplay loop>
   <source src="valentine-music.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card" id="questionScreen">
-    <div class="name">Reet 💞</div>
-    <div id="typeText"></div>
+  <div class="animated-name" aria-hidden="true">Reet</div>
 
-    <!-- IMPORTANT: name="note" is REQUIRED -->
-    <textarea
-      id="note"
-      name="note"
-      placeholder="Leave a sweet note for me 💌"
-    ></textarea>
+  <div id="typeText" aria-live="polite"></div>
 
-    <div class="buttons">
+  <!-- NOTE: both id AND name are REQUIRED for EmailJS to receive value -->
+  <textarea id="note" name="note" placeholder="Leave a sweet note for me 💌"></textarea>
+
+  <div class="buttons">
+    <button id="yesBtn" aria-label="Yes">YES 💕</button>
+    <button id="noBtn" aria-label="No">NO</button>
+  </div>
+</div>
+
+<div class="card love-screen" id="loveScreen">
+  <img src="small-red-roses-bunch.webp" alt="Bouquet of red roses">
+  <h2>She said YES 🎉💘</h2>
+  <p>Roses 💐, chocolates 🍫, gifts 🎁 and my heart forever ❤️</p>
+</div>
+
+<!-- confetti + emailjs -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+/* ------------------ EmailJS config — already set to your keys ------------------ */
+emailjs.init("4jgb22YXxOARwnm45"); // public key you gave
+
+/* ------------------ Typing animation ------------------ */
+const question = "Will you be my Valentine?";
+let ti = 0;
+const typeEl = document.getElementById("typeText");
+(function typeWriter(){
+  if(ti < question.length){
+    typeEl.innerHTML += question[ti] === "\n" ? "<br>" : question[ti];
+    ti++;
+    setTimeout(typeWriter, 60);
+  }
+})();
+
+/* ------------------ NO button: run away + make YES grow ------------------ */
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+let speed = 160;
+let yesScale = 1;
+
+noBtn.addEventListener("mouseover", () => {
+  // increase speed (moves farther) and make YES grow
+  speed = Math.max(40, speed - 20);
+  yesScale += 0.08;
+  yesBtn.style.transform = `scale(${yesScale})`;
+
+  // move NO randomly within a range
+  const rangeX = 120 + Math.random() * 160;
+  const rangeY = 40 + Math.random() * 80;
+  const x = Math.random() * rangeX - rangeX/2;
+  const y = Math.random() * rangeY - rangeY/2;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+/* ------------------ YES click: send email then show love screen ------------------ */
+yesBtn.addEventListener("click", () => {
+  const noteValue = document.getElementById("note").value || "No message 💕";
+  console.log("DEBUG: note value ->", noteValue); // helpful during testing
+
+  // send data to EmailJS — make sure your template uses {{note}} and {{time}}
+  emailjs.send(
+    "service_lfkolnh",
+    "template_u6lrdmg",
+    {
+      note: noteValue,
+      time: new Date().toLocaleString()
+    }
+  ).then((resp) => {
+    console.log("✅ Email sent:", resp);
+    // show confirmation (temporary) and show love screen + confetti
+    alert("💌 Message sent successfully!");
+    document.getElementById("questionScreen").style.display = "none";
+    document.getElementById("loveScreen").style.display = "block";
+    confetti({ particleCount: 200, spread: 110, origin: { y: 0.6 } });
+  }).catch((err) => {
+    console.error("❌ EmailJS error:", err);
+    // still show love screen (so she has a nice experience), but show error
+    alert("⚠️ Email failed to send. Check EmailJS dashboard and template variables.");
+    document.getElementById("questionScreen").style.display = "none";
+    document.getElementById("loveScreen").style.display = "block";
+    confetti({ particleCount: 120, spread: 100, origin: { y: 0.6 } });
+  });
+});
+
+/* ------------------ Floating hearts background ------------------ */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = Math.random() > 0.6 ? "💖" : "💕";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (12 + Math.random() * 18) + "px";
+  heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 9000);
+}, 360);
+</script>
+
+</body>
+</html>
